@@ -1,6 +1,6 @@
 // IMPORT
 
-import * as THREE from 'three'
+import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import sky from "../img/sky.jpg"
 
