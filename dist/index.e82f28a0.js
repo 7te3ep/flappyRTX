@@ -739,6 +739,7 @@ document.addEventListener("click", (event)=>{
         dy += 1;
     }
 });
+function playEvent(event) {}
 
 },{"three":"ktPTu","three/examples/jsm/loaders/GLTFLoader":"dVRsF","../img/sky.jpg":"a30rx","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"ktPTu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32415,6 +32416,6 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}]},["iP4EE","dV6cC"], "dV6cC", "parcelRequiredd4a")
+},{}]},["iP4EE","dV6cC"], "dV6cC", "parcelRequirec513")
 
 //# sourceMappingURL=index.e82f28a0.js.map

@@ -1,11 +1,21 @@
 {
-  "name": "threejs",
+  "name": "flappyrtx",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/7te3ep/flappyRTX.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/7te3ep/flappyRTX/issues"
+  },
+  "homepage": "https://github.com/7te3ep/flappyRTX#readme",
   "dependencies": {
     "three": "^0.146.0"
   }
