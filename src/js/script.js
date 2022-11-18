@@ -152,7 +152,7 @@ function animate(time){
             cameraLookAty -= 1
             camera.lookAt(0, camera.position.y+cameraLookAty/10, 0);
         }
-        dy = dy *0.7
+        dy = dy *0.75
     }
 
     if (!died){
