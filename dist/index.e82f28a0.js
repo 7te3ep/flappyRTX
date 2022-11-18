@@ -569,6 +569,7 @@ var score = 0;
 var scoreDiv = document.getElementById("score");
 const planeColor = new _three.Color("rgb(113, 191, 46)");
 var abresArray = [];
+var stop = true;
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -588,7 +589,6 @@ var groundMesh1 = new _three.Mesh(groundGeo, groundMat);
 groundMesh.receiveShadow = true;
 groundMesh.rotation.x = -0.5 * Math.PI;
 groundMesh.position.z = -70;
-scene.add(groundMesh);
 // LIGHT
 const ambientLight = new _three.AmbientLight(0x333333);
 const directionalLight = new _three.DirectionalLight(0xFFFFFF);
@@ -596,7 +596,7 @@ directionalLight.position.set(-30, 5, 40);
 directionalLight.castShadow = true;
 directionalLight.shadow.camera.top = 50;
 directionalLight.shadow.camera.right = 100;
-scene.add(ambientLight, directionalLight);
+scene.add(ambientLight, directionalLight, groundMesh);
 // OBJECT
 var column1;
 var column2;
@@ -608,44 +608,47 @@ var colunmBonus = {
     tow: "",
     three: ""
 };
-loader.load("../colonne.glb", function(gltf) {
-    gltf.scene.traverse(function(child) {
-        if (child.isMesh) child.castShadow = true;
-    });
-    column1 = gltf.scene.clone();
-    column2 = gltf.scene.clone();
-    column3 = gltf.scene.clone();
-    scene.add(column1, column2, column3);
-    loader.load("../untitled1.glb", function(gltf) {
+function go() {
+    loader.load("../colonne.glb", function(gltf) {
         gltf.scene.traverse(function(child) {
             if (child.isMesh) child.castShadow = true;
         });
-        for(let i = 0; i < 20; i++){
-            abresArray.push(gltf.scene.clone());
-            scene.add(abresArray[i]);
-            if (i <= 10) abresArray[i].position.set(randomInteger(-40, -8), 0, randomInteger(-100, 30));
-            else abresArray[i].position.set(randomInteger(8, 40), 0, randomInteger(-100, 30));
-            random = randomInteger(0, 10) / 20;
-            abresArray[i].scale.set(0.9 + random, 0.9 + random, 0.9 + random);
-            abresArray[i].rotation.y = Math.floor(Math.random() * 100);
-        }
-        loader.load("../arbre2.glb", function(gltf) {
+        column1 = gltf.scene.clone();
+        column2 = gltf.scene.clone();
+        column3 = gltf.scene.clone();
+        scene.add(column1, column2, column3);
+        loader.load("../untitled1.glb", function(gltf) {
             gltf.scene.traverse(function(child) {
                 if (child.isMesh) child.castShadow = true;
             });
-            for(let i = 20; i < 40; i++){
+            for(let i = 0; i < 20; i++){
                 abresArray.push(gltf.scene.clone());
                 scene.add(abresArray[i]);
-                if (i <= 30) abresArray[i].position.set(randomInteger(-150, -8), 0, randomInteger(-100, 30));
-                else abresArray[i].position.set(randomInteger(8, 150), 0, randomInteger(-100, 30));
+                if (i <= 10) abresArray[i].position.set(randomInteger(-40, -8), 0, randomInteger(-100, 30));
+                else abresArray[i].position.set(randomInteger(8, 40), 0, randomInteger(-100, 30));
                 random = randomInteger(0, 10) / 20;
                 abresArray[i].scale.set(0.9 + random, 0.9 + random, 0.9 + random);
                 abresArray[i].rotation.y = Math.floor(Math.random() * 100);
             }
-            renderer.setAnimationLoop(animate);
+            loader.load("../arbre2.glb", function(gltf) {
+                gltf.scene.traverse(function(child) {
+                    if (child.isMesh) child.castShadow = true;
+                });
+                for(let i = 20; i < 40; i++){
+                    abresArray.push(gltf.scene.clone());
+                    scene.add(abresArray[i]);
+                    if (i <= 30) abresArray[i].position.set(randomInteger(-150, -8), 0, randomInteger(-100, 30));
+                    else abresArray[i].position.set(randomInteger(8, 150), 0, randomInteger(-100, 30));
+                    random = randomInteger(0, 10) / 20;
+                    abresArray[i].scale.set(0.9 + random, 0.9 + random, 0.9 + random);
+                    abresArray[i].rotation.y = Math.floor(Math.random() * 100);
+                }
+                renderer.setAnimationLoop(animate);
+            });
         });
     });
-});
+}
+go();
 function checkIfImDeadBrooother(camera, colunmBonus, currentColumn) {
     if (currentColumn == 1 && column1.position.z > 26) {
         if (camera.position.y < 6.3 + colunmBonus.one || camera.position.y > 5.2 + colunmBonus.one + 7.6) died = true;
@@ -676,7 +679,7 @@ function animate(time) {
     if (camera.position.y <= 2) {
         camera.position.y = 2;
         died = true;
-    } else {
+    } else if (!stop) {
         physicCTR += 3;
         camera.position.y += dy - 0.0025 * physicCTR;
         if (dy - 0.002 * physicCTR > 0 && cameraLookAty < 100) {
@@ -689,7 +692,7 @@ function animate(time) {
         }
         dy = dy * 0.75;
     }
-    if (!died) {
+    if (!died && !stop) {
         column1.position.z += 0.3;
         column2.position.z += 0.3;
         column3.position.z += 0.3;
@@ -725,19 +728,46 @@ function animate(time) {
     gameFrame += 1;
     renderer.render(scene, camera);
 }
+function reset() {
+    while(scene.children.length > 0)scene.remove(scene.children[0]);
+    stop = true;
+    scene.add(ambientLight, directionalLight, groundMesh);
+    renderer.setAnimationLoop(null);
+    abresArray = [];
+    column1 = "";
+    column2 = "";
+    column3 = "";
+    currentColumn = 1;
+    died = false;
+    colunmBonus = {
+        one: "",
+        tow: "",
+        three: ""
+    };
+    camera.position.set(0, 20, 30);
+    dy = 0;
+    random = 0;
+    gameFrame = 0;
+    physicCTR = 0;
+    cameraLookAty = 0;
+    score = 0;
+    go();
+}
 document.addEventListener("keyup", (event)=>{
     if (event.code === "Space") {
         if (!died && camera.position.y < 26) {
+            if (stop) stop = false;
             physicCTR = 0;
             dy += 1;
-        }
+        } else if (camera.position.y <= 2) reset();
     }
 });
 document.addEventListener("click", (event)=>{
     if (!died && camera.position.y < 26) {
+        if (stop) stop = false;
         physicCTR = 0;
         dy += 1;
-    }
+    } else if (camera.position.y <= 2) reset();
 });
 
 },{"three":"ktPTu","three/examples/jsm/loaders/GLTFLoader":"dVRsF","../img/sky.jpg":"a30rx","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"ktPTu":[function(require,module,exports) {

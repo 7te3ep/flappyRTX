@@ -31,7 +31,7 @@ var score = 0
 var scoreDiv = document.getElementById('score')
 const planeColor = new THREE.Color("rgb(113, 191, 46)");
 var abresArray = []
-
+var stop = true
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -47,7 +47,6 @@ var groundMesh1 = new THREE.Mesh(groundGeo,groundMat)
 groundMesh.receiveShadow = true
 groundMesh.rotation.x = -0.5 * Math.PI
 groundMesh.position.z = -70
-scene.add(groundMesh)
 
 // LIGHT
 
@@ -58,7 +57,7 @@ directionalLight.position.set(-30,5,40)
 directionalLight.castShadow = true
 directionalLight.shadow.camera.top = 50
 directionalLight.shadow.camera.right = 100
-scene.add(ambientLight,directionalLight)
+scene.add(ambientLight,directionalLight,groundMesh)
 
 // OBJECT
 
@@ -70,7 +69,7 @@ var currentColumn = 1
 
 var died = false
 var colunmBonus = {one:"",tow:"",three:""}
-
+function go(){
 loader.load("../colonne.glb",function(gltf){
         gltf.scene.traverse(function (child) {if (child.isMesh) {child.castShadow = true}})
         column1 = gltf.scene.clone()
@@ -112,6 +111,8 @@ loader.load("../colonne.glb",function(gltf){
         )
     }
 )
+}
+go()
 
 function checkIfImDeadBrooother(camera,colunmBonus,currentColumn){
     if (currentColumn == 1 && column1.position.z >26){if (camera.position.y < 6.3+colunmBonus.one ||camera.position.y > 5.2+colunmBonus.one +7.6){died = true}}
@@ -141,7 +142,7 @@ function animate(time){
     if (camera.position.y <= 2){
         camera.position.y = 2
         died = true
-    }else {
+    }else if (!stop){
         physicCTR += 3
         camera.position.y += dy - 0.0025 *physicCTR
         if (dy - 0.002 *physicCTR > 0 && cameraLookAty <10*10){
@@ -155,7 +156,7 @@ function animate(time){
         dy = dy *0.75
     }
 
-    if (!died){
+    if (!died && !stop){
         column1.position.z += 0.3
         column2.position.z += 0.3
         column3.position.z += 0.3
@@ -195,20 +196,53 @@ function animate(time){
     renderer.render(scene,camera)
 }
 
+function reset(){
+    while(scene.children.length > 0){ 
+        scene.remove(scene.children[0]); 
+    }
+    stop = true
+    scene.add(ambientLight,directionalLight,groundMesh)
+    renderer.setAnimationLoop(null);  
+    abresArray = []
+    column1 =""
+    column2 =""
+    column3 =""
+    currentColumn = 1
+    died = false
+    colunmBonus = {one:"",tow:"",three:""}
+    camera.position.set(0,20,30)
+    dy = 0
+    random = 0
+    gameFrame = 0
+    physicCTR = 0
+    cameraLookAty = 0
+    score = 0
+    go()
+}
 
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
         if (!died && camera.position.y < 26){
+            if (stop){
+                stop = false
+            }
             physicCTR = 0
             dy += 1
+        }else if (camera.position.y <= 2) {
+            reset()
         }
     }
 })
 
 document.addEventListener('click', event => {
         if (!died && camera.position.y < 26){
+            if (stop){
+                stop = false
+            }
             physicCTR = 0
             dy += 1
+        }else if (camera.position.y <= 2) {
+            reset()
         }
 })
 
