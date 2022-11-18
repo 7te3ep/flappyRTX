@@ -753,22 +753,22 @@ function reset() {
     score = 0;
     go();
 }
-document.addEventListener("keyup", (event)=>{
-    if (event.code === "Space") {
-        if (!died && camera.position.y < 26) {
-            if (stop) stop = false;
-            physicCTR = 0;
-            dy += 1;
-        } else if (camera.position.y <= 2) reset();
-    }
-});
-document.addEventListener("click", (event)=>{
+function interactionPlayer() {
     if (!died && camera.position.y < 26) {
         if (stop) stop = false;
         physicCTR = 0;
         dy += 1;
     } else if (camera.position.y <= 2) reset();
+}
+document.addEventListener("keyup", (event)=>{
+    if (event.code === "Space") interactionPlayer();
 });
+document.addEventListener("click", (event)=>{
+    interactionPlayer();
+});
+someElement.addEventListener("touchend", (event)=>{
+    interactionPlayer();
+}, false);
 
 },{"three":"ktPTu","three/examples/jsm/loaders/GLTFLoader":"dVRsF","../img/sky.jpg":"a30rx","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"ktPTu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
