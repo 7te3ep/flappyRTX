@@ -536,7 +536,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 // IMPORT
 var _three = require("three");
 var _gltfloader = require("three/examples/jsm/loaders/GLTFLoader");
-var _skyJpg = require("../img/sky.jpg");
+var _skyJpg = require("./sky.jpg");
 var _skyJpgDefault = parcelHelpers.interopDefault(_skyJpg);
 // RENDERER
 const loader = new (0, _gltfloader.GLTFLoader)();
