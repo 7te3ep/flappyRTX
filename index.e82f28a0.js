@@ -536,7 +536,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 // IMPORT
 var _three = require("three");
 var _gltfloader = require("three/examples/jsm/loaders/GLTFLoader");
-var _skyJpg = require("./sky.jpg");
+var _skyJpg = require("../img/sky.jpg");
 var _skyJpgDefault = parcelHelpers.interopDefault(_skyJpg);
 // RENDERER
 const loader = new (0, _gltfloader.GLTFLoader)();
@@ -574,7 +574,7 @@ function randomInteger(min, max) {
 }
 // HeightMap
 const groundGeo = new _three.PlaneGeometry(500, 200, 150, 150);
-let disMap = new _three.TextureLoader().setPath("./").load("heightMap.png");
+let disMap = new _three.TextureLoader().setPath("../").load("heightMap.png");
 disMap.wrapS = disMap.wrapT = _three.RepeatWrapping;
 disMap.repeat.set(10, 10);
 const groundMat = new _three.MeshStandardMaterial({
@@ -608,7 +608,7 @@ var colunmBonus = {
     tow: "",
     three: ""
 };
-loader.load("./colonne.glb", function(gltf) {
+loader.load("../colonne.glb", function(gltf) {
     gltf.scene.traverse(function(child) {
         if (child.isMesh) child.castShadow = true;
     });
@@ -616,7 +616,7 @@ loader.load("./colonne.glb", function(gltf) {
     column2 = gltf.scene.clone();
     column3 = gltf.scene.clone();
     scene.add(column1, column2, column3);
-    loader.load("./untitled1.glb", function(gltf) {
+    loader.load("../untitled1.glb", function(gltf) {
         gltf.scene.traverse(function(child) {
             if (child.isMesh) child.castShadow = true;
         });
@@ -629,7 +629,7 @@ loader.load("./colonne.glb", function(gltf) {
             abresArray[i].scale.set(0.9 + random, 0.9 + random, 0.9 + random);
             abresArray[i].rotation.y = Math.floor(Math.random() * 100);
         }
-        loader.load("./arbre2.glb", function(gltf) {
+        loader.load("../arbre2.glb", function(gltf) {
             gltf.scene.traverse(function(child) {
                 if (child.isMesh) child.castShadow = true;
             });
@@ -687,7 +687,7 @@ function animate(time) {
             cameraLookAty -= 1;
             camera.lookAt(0, camera.position.y + cameraLookAty / 10, 0);
         }
-        dy = dy * 0.7;
+        dy = dy * 0.75;
     }
     if (!died) {
         column1.position.z += 0.3;
@@ -740,7 +740,7 @@ document.addEventListener("click", (event)=>{
     }
 });
 
-},{"three":"ktPTu","three/examples/jsm/loaders/GLTFLoader":"dVRsF","./sky.jpg":"a30rx","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","three/examples/jsm/loaders/GLTFLoader":"dVRsF","../img/sky.jpg":"a30rx","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"ktPTu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ACESFilmicToneMapping", ()=>ACESFilmicToneMapping);
