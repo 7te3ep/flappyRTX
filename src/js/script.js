@@ -114,9 +114,9 @@ loader.load("../colonne.glb",function(gltf){
 )
 
 function checkIfImDeadBrooother(camera,colunmBonus,currentColumn){
-    if (currentColumn == 1 && column1.position.z >26){if (camera.position.y < 6.3+colunmBonus.one ||camera.position.y > 5.2+colunmBonus.one +8.6){died = true}}
-    if (currentColumn == 2 && column2.position.z >26){if (camera.position.y < 6.3+colunmBonus.tow ||camera.position.y > 5.2+colunmBonus.tow +8.6){died = true}}
-    if (currentColumn == 3 && column3.position.z >26){if(camera.position.y < 6.3+colunmBonus.three||camera.position.y > 5.2+colunmBonus.three   +8.6){died = true}}
+    if (currentColumn == 1 && column1.position.z >26){if (camera.position.y < 6.3+colunmBonus.one ||camera.position.y > 5.2+colunmBonus.one +7.6){died = true}}
+    if (currentColumn == 2 && column2.position.z >26){if (camera.position.y < 6.3+colunmBonus.tow ||camera.position.y > 5.2+colunmBonus.tow +7.6){died = true}}
+    if (currentColumn == 3 && column3.position.z >26){if(camera.position.y < 6.3+colunmBonus.three||camera.position.y > 5.2+colunmBonus.three   +7.6){died = true}}
 }
 
 // ANIMATE
@@ -212,6 +212,3 @@ document.addEventListener('click', event => {
         }
 })
 
-function playEvent(event){
-
-}
