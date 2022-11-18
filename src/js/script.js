@@ -220,29 +220,27 @@ function reset(){
     go()
 }
 
+function interactionPlayer(){
+    if (!died && camera.position.y < 26){
+        if (stop){
+            stop = false
+        }
+        physicCTR = 0
+        dy += 1
+    }else if (camera.position.y <= 2) {
+        reset()
+    }
+}
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
-        if (!died && camera.position.y < 26){
-            if (stop){
-                stop = false
-            }
-            physicCTR = 0
-            dy += 1
-        }else if (camera.position.y <= 2) {
-            reset()
-        }
+        interactionPlayer()
     }
 })
 
 document.addEventListener('click', event => {
-        if (!died && camera.position.y < 26){
-            if (stop){
-                stop = false
-            }
-            physicCTR = 0
-            dy += 1
-        }else if (camera.position.y <= 2) {
-            reset()
-        }
+    interactionPlayer()
 })
 
+someElement.addEventListener('touchend', event => {
+    interactionPlayer()
+}, false);
